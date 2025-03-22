@@ -1,0 +1,232 @@
+{
+  "type": "directory",
+  "name": "rsvpy-realll",
+  "path": "rsvpy-realll",
+  "children": [
+    {
+      "type": "directory",
+      "name": ".git",
+      "path": "rsvpy-realll/.git",
+      "children": []
+    },
+    {
+      "type": "directory",
+      "name": ".next",
+      "path": "rsvpy-realll/.next",
+      "children": []
+    },
+    {
+      "type": "file",
+      "name": "README.md",
+      "path": "rsvpy-realll/README.md",
+      "extension": ".md"
+    },
+    {
+      "type": "directory",
+      "name": "app",
+      "path": "rsvpy-realll/app",
+      "children": [
+        {
+          "type": "directory",
+          "name": "create",
+          "path": "rsvpy-realll/app/create",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/create/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "dashboard",
+          "path": "rsvpy-realll/app/dashboard",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/dashboard/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "name": "globals.css",
+          "path": "rsvpy-realll/app/globals.css",
+          "extension": ".css"
+        },
+        {
+          "type": "file",
+          "name": "layout.tsx",
+          "path": "rsvpy-realll/app/layout.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "directory",
+          "name": "login",
+          "path": "rsvpy-realll/app/login",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/login/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "name": "page.tsx",
+          "path": "rsvpy-realll/app/page.tsx",
+          "extension": ".tsx"
+        }
+      ]
+    },
+    {
+      "type": "directory",
+      "name": "components",
+      "path": "rsvpy-realll/components",
+      "children": [
+        {
+          "type": "file",
+          "name": "Header.tsx",
+          "path": "rsvpy-realll/components/Header.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "ProtectedRoute.tsx",
+          "path": "rsvpy-realll/components/ProtectedRoute.tsx",
+          "extension": ".tsx"
+        }
+      ]
+    },
+    {
+      "type": "directory",
+      "name": "contexts",
+      "path": "rsvpy-realll/contexts",
+      "children": [
+        {
+          "type": "file",
+          "name": "AuthContext.tsx",
+          "path": "rsvpy-realll/contexts/AuthContext.tsx",
+          "extension": ".tsx"
+        }
+      ]
+    },
+    {
+      "type": "directory",
+      "name": "lib",
+      "path": "rsvpy-realll/lib",
+      "children": [
+        {
+          "type": "file",
+          "name": "database.types.ts",
+          "path": "rsvpy-realll/lib/database.types.ts",
+          "extension": ".ts"
+        },
+        {
+          "type": "file",
+          "name": "supabase.ts",
+          "path": "rsvpy-realll/lib/supabase.ts",
+          "extension": ".ts"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "next-env.d.ts",
+      "path": "rsvpy-realll/next-env.d.ts",
+      "extension": ".ts"
+    },
+    {
+      "type": "file",
+      "name": "next.config.js",
+      "path": "rsvpy-realll/next.config.js",
+      "extension": ".js"
+    },
+    {
+      "type": "directory",
+      "name": "node_modules",
+      "path": "rsvpy-realll/node_modules",
+      "children": []
+    },
+    {
+      "type": "file",
+      "name": "package-lock.json",
+      "path": "rsvpy-realll/package-lock.json",
+      "extension": ".json"
+    },
+    {
+      "type": "file",
+      "name": "package.json",
+      "path": "rsvpy-realll/package.json",
+      "extension": ".json"
+    },
+    {
+      "type": "file",
+      "name": "postcss.config.js",
+      "path": "rsvpy-realll/postcss.config.js",
+      "extension": ".js"
+    },
+    {
+      "type": "directory",
+      "name": "public",
+      "path": "rsvpy-realll/public",
+      "children": []
+    },
+    {
+      "type": "directory",
+      "name": "scripts",
+      "path": "rsvpy-realll/scripts",
+      "children": []
+    },
+    {
+      "type": "directory",
+      "name": "src",
+      "path": "rsvpy-realll/src",
+      "children": [
+        {
+          "type": "directory",
+          "name": "app",
+          "path": "rsvpy-realll/src/app",
+          "children": [
+            {
+              "type": "file",
+              "name": "globals.css",
+              "path": "rsvpy-realll/src/app/globals.css",
+              "extension": ".css"
+            },
+            {
+              "type": "file",
+              "name": "layout.tsx",
+              "path": "rsvpy-realll/src/app/layout.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/src/app/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "tailwind.config.ts",
+      "path": "rsvpy-realll/tailwind.config.ts",
+      "extension": ".ts"
+    },
+    {
+      "type": "file",
+      "name": "tsconfig.json",
+      "path": "rsvpy-realll/tsconfig.json",
+      "extension": ".json"
+    }
+  ]
+}

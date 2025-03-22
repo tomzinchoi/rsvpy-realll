@@ -1,0 +1,41 @@
+## Project Overview
+RSVPY is a mobile-friendly web application for creating, sharing, and managing invitations and RSVPs, built on Supabase. The design features a light ivory background with elegant black buttons.(start-up)
+
+## Tech Stack
+- **Frontend**: Next.js, React, TypeScript
+- **Backend**: Supabase
+- **Styling**: CSS (custom), Tailwind CSS (optional)
+- **Tools**: Visual Studio Code (VS Code), Git, GitHub
+
+## Initial Setup
+1. Create project structure
+2. Generate basic files and folders
+3. Install initial dependencies
+4. Configure Supabase connection
+
+## Design Requirements
+- Light ivory background
+- Elegant black buttons
+- Mobile-friendly design
+- Intuitive editing features (click "+" between content to add elements)
+- Editing options for calendars, photos, font size/weight/alignment
+
+## Event Management Dashboard
+- Manage view counts and growth rates
+- Elegant and intuitive layout
+- Smooth UI/UX
+
+## RSVP Form Customization
+- Provide various customization options like sliders, checkboxes, etc.
+
+## RSVP Form Customization
+- Provide various customization options like sliders, checkboxes, etc.
+
+## Email Sending Feature
+- Send invitations via email
+- Track the status of sent emails (sent, opened, etc.)
+
+## Additional Requirements
+- Consistent UI/UX throughout the application
+- Write efficient and optimized code
+- Minimize compile errors and file conflicts
