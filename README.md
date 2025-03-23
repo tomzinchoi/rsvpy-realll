@@ -42,4 +42,32 @@ chmod +x /workspaces/rsvpy-realll/scripts/run.sh
 # Run the script
 ./scripts/run.sh
 
+before 
+
 I am going to refresh the chat session since it is bugging a bit, and you are going to be refreshed again, can you provide some rules that you followed while writing code and the progress and all the stuff so the next session we can continue the process?
+
+
+please we need to continue the process, you have been refreshed, read the files that I have provided to you and let's go ahead
+
+let's move on to the next steps, and please don't generate too much files at once, you might be stopped by the token limmits
+
+ok nice, but we got some issues here, let's fix this first and move on to the next step
+
+
+please give me new sql query I think I would be much better to set everything again, give me a guide.
+
+plesae if you are wrting or creating a new file, please check if there is a same file with similer featers, if exists, please overwrite or modify the file first only create new files if really needed, to prevent confilts between files and errors
+
+
+
+Maintaining Your Database
+Adding New Columns
+If you need to add new columns to existing tables, create a migration script similar to add_event_image_url.sql:
+
+Backup Strategy
+Regularly back up your database:
+
+Go to "Project Settings → Database"
+Use the "Database Backups" section to create manual backups
+Set up automated backups for production environments
+With this guide, you should be able to use the SQL files to properly set up your Supabase backend for the RSVPY application.

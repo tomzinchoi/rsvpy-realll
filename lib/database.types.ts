@@ -12,96 +12,119 @@ export interface Database {
       events: {
         Row: {
           id: string
-          created_at: string
-          updated_at: string
           title: string
-          description: string
+          description: string | null
           date: string
+          time: string | null
           location: string
-          host_id: string
+          user_id: string
+          custom_fields: Json | null
+          created_at: string
           view_count: number
-          template_id: string | null
+          event_image_url: string | null
         }
         Insert: {
           id?: string
-          created_at?: string
-          updated_at?: string
           title: string
-          description: string
+          description?: string | null
           date: string
+          time?: string | null
           location: string
-          host_id: string
+          user_id: string
+          custom_fields?: Json | null
+          created_at?: string
           view_count?: number
-          template_id?: string | null
+          event_image_url?: string | null
         }
         Update: {
           id?: string
-          created_at?: string
-          updated_at?: string
           title?: string
-          description?: string
+          description?: string | null
           date?: string
+          time?: string | null
           location?: string
-          host_id?: string
+          user_id?: string
+          custom_fields?: Json | null
+          created_at?: string
           view_count?: number
-          template_id?: string | null
+          event_image_url?: string | null
         }
       }
       rsvps: {
         Row: {
           id: string
-          created_at: string
           event_id: string
           name: string
           email: string
-          status: 'yes' | 'no' | 'maybe'
-          guests: number
-          message: string | null
+          attending: boolean
+          custom_data: Json | null
+          created_at: string
         }
         Insert: {
           id?: string
-          created_at?: string
           event_id: string
           name: string
           email: string
-          status: 'yes' | 'no' | 'maybe'
-          guests?: number
-          message?: string | null
+          attending: boolean
+          custom_data?: Json | null
+          created_at?: string
         }
         Update: {
           id?: string
-          created_at?: string
           event_id?: string
           name?: string
           email?: string
-          status?: 'yes' | 'no' | 'maybe'
-          guests?: number
-          message?: string | null
+          attending?: boolean
+          custom_data?: Json | null
+          created_at?: string
         }
       }
-      templates: {
+      email_invitations: {
         Row: {
           id: string
+          event_id: string
+          email: string
+          status: 'pending' | 'sent' | 'opened' | 'clicked' | 'failed'
+          sent_at: string | null
+          opened_at: string | null
+          clicked_at: string | null
           created_at: string
-          name: string
-          description: string | null
-          content: Json
         }
         Insert: {
           id?: string
+          event_id: string
+          email: string
+          status?: 'pending' | 'sent' | 'opened' | 'clicked' | 'failed'
+          sent_at?: string | null
+          opened_at?: string | null
+          clicked_at?: string | null
           created_at?: string
-          name: string
-          description?: string | null
-          content: Json
         }
         Update: {
           id?: string
+          event_id?: string
+          email?: string
+          status?: 'pending' | 'sent' | 'opened' | 'clicked' | 'failed'
+          sent_at?: string | null
+          opened_at?: string | null
+          clicked_at?: string | null
           created_at?: string
-          name?: string
-          description?: string | null
-          content?: Json
         }
       }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      increment_event_views: {
+        Args: {
+          event_id: string
+        }
+        Returns: boolean
+      }
+    }
+    Enums: {
+      [_ in never]: never
     }
   }
 }

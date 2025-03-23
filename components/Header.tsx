@@ -1,38 +1,57 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
 
-export default function Header() {
+const Header = () => {
   const { user, signOut } = useAuth();
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
-    <header className="bg-ivory shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold">RSVPY</Link>
+    <header className="bg-white shadow-sm">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <Link href="/" className="text-2xl font-bold text-black">
+          RSVPY
+        </Link>
         <nav>
-          <ul className="flex gap-6 items-center">
-            {user && (
+          <ul className="flex space-x-6">
+            {user ? (
               <>
-                <li><Link href="/create" className="hover:underline">Create</Link></li>
-                <li><Link href="/dashboard" className="hover:underline">Dashboard</Link></li>
                 <li>
-                  <button 
-                    onClick={() => signOut()} 
-                    className="hover:underline"
+                  <Link href="/dashboard" className="text-gray-600 hover:text-black">
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/create" className="text-gray-600 hover:text-black">
+                    Create Event
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleSignOut}
+                    className="text-gray-600 hover:text-black"
                   >
-                    Logout
+                    Sign Out
                   </button>
                 </li>
               </>
-            )}
-            
-            {!user && (
-              <li><Link href="/login" className="btn-black">Login</Link></li>
+            ) : (
+              <li>
+                <Link href="/login" className="text-gray-600 hover:text-black">
+                  Sign In
+                </Link>
+              </li>
             )}
           </ul>
         </nav>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

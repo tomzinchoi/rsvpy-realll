@@ -1,25 +1,26 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.css';
-import { AuthProvider } from '../contexts/AuthContext';
+import { Inter } from 'next/font/google';
+import Header from '@/components/Header';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'RSVPY - Invitation and RSVP Management',
-  description: 'Create, share, and manage invitations and RSVPs',
+export const metadata = {
+  title: 'RSVPY - Event Management and RSVP',
+  description: 'Create, share, and manage event invitations and RSVPs',
 };
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-ivory min-h-screen`}>
+      <body className={`${inter.className} bg-[#fffff0] min-h-screen`}>
         <AuthProvider>
-          {children}
+          <Header />
+          <main>{children}</main>
         </AuthProvider>
       </body>
     </html>

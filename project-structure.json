@@ -22,10 +22,48 @@
       "extension": ".md"
     },
     {
+      "type": "file",
+      "name": "SETUP.md",
+      "path": "rsvpy-realll/SETUP.md",
+      "extension": ".md"
+    },
+    {
+      "type": "file",
+      "name": "SETUP_GUIDE.md",
+      "path": "rsvpy-realll/SETUP_GUIDE.md",
+      "extension": ".md"
+    },
+    {
+      "type": "file",
+      "name": "SUPABASE_MANUAL_SETUP.md",
+      "path": "rsvpy-realll/SUPABASE_MANUAL_SETUP.md",
+      "extension": ".md"
+    },
+    {
       "type": "directory",
       "name": "app",
       "path": "rsvpy-realll/app",
       "children": [
+        {
+          "type": "directory",
+          "name": "admin",
+          "path": "rsvpy-realll/app/admin",
+          "children": [
+            {
+              "type": "directory",
+              "name": "setup",
+              "path": "rsvpy-realll/app/admin/setup",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "page.tsx",
+                  "path": "rsvpy-realll/app/admin/setup/page.tsx",
+                  "extension": ".tsx"
+                }
+              ]
+            }
+          ]
+        },
         {
           "type": "directory",
           "name": "create",
@@ -49,6 +87,26 @@
               "name": "page.tsx",
               "path": "rsvpy-realll/app/dashboard/page.tsx",
               "extension": ".tsx"
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "event",
+          "path": "rsvpy-realll/app/event",
+          "children": [
+            {
+              "type": "directory",
+              "name": "[id]",
+              "path": "rsvpy-realll/app/event/[id]",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "page.tsx",
+                  "path": "rsvpy-realll/app/event/[id]/page.tsx",
+                  "extension": ".tsx"
+                }
+              ]
             }
           ]
         },
@@ -82,6 +140,52 @@
           "name": "page.tsx",
           "path": "rsvpy-realll/app/page.tsx",
           "extension": ".tsx"
+        },
+        {
+          "type": "directory",
+          "name": "pricing",
+          "path": "rsvpy-realll/app/pricing",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/pricing/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "rsvp",
+          "path": "rsvpy-realll/app/rsvp",
+          "children": [
+            {
+              "type": "directory",
+              "name": "[id]",
+              "path": "rsvpy-realll/app/rsvp/[id]",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "page.tsx",
+                  "path": "rsvpy-realll/app/rsvp/[id]/page.tsx",
+                  "extension": ".tsx"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "setup",
+          "path": "rsvpy-realll/app/setup",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/setup/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
         }
       ]
     },
@@ -92,14 +196,56 @@
       "children": [
         {
           "type": "file",
+          "name": "ConfigCheck.tsx",
+          "path": "rsvpy-realll/components/ConfigCheck.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "EmailInviter.tsx",
+          "path": "rsvpy-realll/components/EmailInviter.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "EventCalendar.tsx",
+          "path": "rsvpy-realll/components/EventCalendar.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "EventStatistics.tsx",
+          "path": "rsvpy-realll/components/EventStatistics.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
           "name": "Header.tsx",
           "path": "rsvpy-realll/components/Header.tsx",
           "extension": ".tsx"
         },
         {
           "type": "file",
+          "name": "ImagePreview.tsx",
+          "path": "rsvpy-realll/components/ImagePreview.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "ImageUploader.tsx",
+          "path": "rsvpy-realll/components/ImageUploader.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
           "name": "ProtectedRoute.tsx",
           "path": "rsvpy-realll/components/ProtectedRoute.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "RsvpForm.tsx",
+          "path": "rsvpy-realll/components/RsvpForm.tsx",
           "extension": ".tsx"
         }
       ]
@@ -116,6 +262,12 @@
           "extension": ".tsx"
         }
       ]
+    },
+    {
+      "type": "file",
+      "name": "jsconfig.json",
+      "path": "rsvpy-realll/jsconfig.json",
+      "extension": ".json"
     },
     {
       "type": "directory",
@@ -135,6 +287,12 @@
           "extension": ".ts"
         }
       ]
+    },
+    {
+      "type": "directory",
+      "name": "migrations",
+      "path": "rsvpy-realll/migrations",
+      "children": []
     },
     {
       "type": "file",
@@ -173,6 +331,18 @@
       "extension": ".js"
     },
     {
+      "type": "file",
+      "name": "process.md",
+      "path": "rsvpy-realll/process.md",
+      "extension": ".md"
+    },
+    {
+      "type": "file",
+      "name": "project-structure.json",
+      "path": "rsvpy-realll/project-structure.json",
+      "extension": ".json"
+    },
+    {
       "type": "directory",
       "name": "public",
       "path": "rsvpy-realll/public",
@@ -193,26 +363,7 @@
           "type": "directory",
           "name": "app",
           "path": "rsvpy-realll/src/app",
-          "children": [
-            {
-              "type": "file",
-              "name": "globals.css",
-              "path": "rsvpy-realll/src/app/globals.css",
-              "extension": ".css"
-            },
-            {
-              "type": "file",
-              "name": "layout.tsx",
-              "path": "rsvpy-realll/src/app/layout.tsx",
-              "extension": ".tsx"
-            },
-            {
-              "type": "file",
-              "name": "page.tsx",
-              "path": "rsvpy-realll/src/app/page.tsx",
-              "extension": ".tsx"
-            }
-          ]
+          "children": []
         }
       ]
     },

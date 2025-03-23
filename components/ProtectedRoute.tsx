@@ -1,32 +1,37 @@
 'use client';
 
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext';
+import React from 'react';
 
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { user, isLoading } = useAuth(); // Use isLoading instead of loading
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
+    // Only redirect if loading is complete and no user is found
+    if (!isLoading && !user && typeof window !== 'undefined') {
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
-  }, [user, loading, router]);
+  }, [user, isLoading, router, pathname]);
 
-  if (loading) {
+  // Show loading state while determining auth status
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <p className="text-lg">Loading...</p>
-        </div>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
       </div>
     );
   }
 
-  if (!user) {
-    return null;
-  }
+  // If authenticated, show the protected content
+  return user ? <>{children}</> : null;
+};
 
-  return <>{children}</>;
-}
+export default ProtectedRoute;

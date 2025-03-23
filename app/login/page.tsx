@@ -2,105 +2,129 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
-import { useAuth } from '../../contexts/AuthContext';
-import Header from '../../components/Header';
 
-export default function Login() {
+export default function LoginPage() {
+  const router = useRouter();
+  const { signIn, signUp, isLoading, error: authError } = useAuth();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const router = useRouter();
-  const { signIn, signUp } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setIsLoading(true);
+    setSuccessMessage(null);
 
     try {
       if (isSignUp) {
-        await signUp(email, password);
-        alert('Check your email for the confirmation link!');
+        // Handle sign up
+        const { error } = await signUp(email, password);
+        if (error) {
+          setError(error.message || 'Error creating account. Please try again.');
+          return;
+        }
+        
+        setSuccessMessage('Account created! Please check your email for verification.');
+        setIsSignUp(false);
       } else {
-        await signIn(email, password);
+        // Handle sign in
+        const { error } = await signIn(email, password);
+        if (error) {
+          setError(error.message || 'Invalid email or password.');
+          return;
+        }
+        
         router.push('/dashboard');
       }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'An error occurred');
-    } finally {
-      setIsLoading(false);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
     }
   };
 
   return (
-    <>
-      <Header />
-      <main className="max-w-md mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold mb-6 text-center">
-          {isSignUp ? 'Create Account' : 'Sign In'}
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
+        <h1 className="text-3xl font-bold text-center mb-6">
+          {isSignUp ? 'Create an Account' : 'Welcome Back'}
         </h1>
         
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
             {error}
           </div>
         )}
         
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+        {authError && (
+          <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
+            {authError}
+          </div>
+        )}
+        
+        {successMessage && (
+          <div className="bg-green-100 text-green-700 p-3 rounded-md mb-4">
+            {successMessage}
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block mb-2 font-medium">Email</label>
-            <input 
-              type="email" 
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              Email Address
+            </label>
+            <input
               id="email"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               required
             />
           </div>
           
           <div className="mb-6">
-            <label htmlFor="password" className="block mb-2 font-medium">Password</label>
-            <input 
-              type="password" 
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
               id="password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               required
+              minLength={6}
             />
           </div>
           
-          <div className="flex flex-col gap-4">
-            <button 
-              type="submit" 
-              className="btn-black w-full" 
-              disabled={isLoading}
-            >
-              {isLoading 
-                ? 'Loading...' 
-                : isSignUp 
-                  ? 'Create Account' 
-                  : 'Sign In'
-              }
-            </button>
-            
-            <button
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-              className="text-sm text-center hover:underline"
-            >
-              {isSignUp 
-                ? 'Already have an account? Sign in' 
-                : 'Need an account? Sign up'
-              }
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50 disabled:opacity-50"
+          >
+            {isLoading ? 'Processing...' : isSignUp ? 'Create Account' : 'Sign In'}
+          </button>
         </form>
-      </main>
-    </>
+        
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError(null);
+              setSuccessMessage(null);
+            }}
+            className="text-sm text-gray-600 hover:underline"
+          >
+            {isSignUp
+              ? 'Already have an account? Sign In'
+              : "Don't have an account? Sign Up"}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

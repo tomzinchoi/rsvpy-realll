@@ -1,0 +1,1 @@
+/workspaces/rsvpy-realll/lib/supabase.ts
