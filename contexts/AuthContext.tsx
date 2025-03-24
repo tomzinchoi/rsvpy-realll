@@ -1,149 +1,138 @@
 'use client';
 
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { supabase } from '@/lib/supabase';
-import { User } from '@supabase/supabase-js';
+import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+import { logStartup } from '@/lib/debug';
 
-// Unified AuthContextType with both loading and isLoading for compatibility
-export interface AuthContextType {
+interface AuthContextProps {
   user: User | null;
-  loading: boolean; // Legacy prop
-  isLoading: boolean; // New prop
-  error: string | null;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string) => Promise<{ error: any }>;
+  isLoading: boolean;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
-// Create context with default values
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true,
-  isLoading: true,
-  error: null,
-  signIn: async () => ({ error: null }),
-  signUp: async () => ({ error: null }),
-  signOut: async () => {},
-});
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const useAuth = () => useContext(AuthContext);
+interface AuthContextProviderProps {
+  children: ReactNode;
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<Error | null>(null);
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   useEffect(() => {
-    const getInitialUser = async () => {
+    logStartup('AuthContextProvider', 'Initializing');
+    
+    const getUser = async () => {
       try {
-        setIsLoading(true);
+        logStartup('AuthContextProvider', 'Fetching user');
+        const { data: { user }, error } = await supabase.auth.getUser();
         
-        // Get the initial session
-        const { data: { session } } = await supabase.auth.getSession();
-        setUser(session?.user || null);
-        
-        // Set up auth state change listener
-        const { data: { subscription } } = await supabase.auth.onAuthStateChange(
-          async (event, session) => {
-            console.log(`Auth state changed: ${event}`);
-            setUser(session?.user || null);
-          }
-        );
-
-        return () => {
-          subscription.unsubscribe();
-        };
-      } catch (error: any) {
-        console.error('Error in auth state initialization:', error);
-        setError(error.message);
+        if (error) {
+          console.error('Auth error during getUser:', error);
+          setAuthError(error);
+        } else {
+          setUser(user);
+          logStartup('AuthContextProvider', user ? 'User found' : 'No user found');
+        }
+      } catch (error) {
+        console.error('Unexpected error during auth check:', error);
+        setAuthError(error instanceof Error ? error : new Error(String(error)));
       } finally {
         setIsLoading(false);
       }
     };
 
-    getInitialUser();
-  }, []);
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      logStartup('AuthContextProvider', `Auth state change: ${event}`);
+      
+      if (event === 'SIGNED_IN' && session?.user) {
+        setUser(session.user);
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   const signIn = async (email: string, password: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        setError(error.message);
-        return { error };
-      }
-
-      setUser(data.user);
-      return { error: null };
-    } catch (error: any) {
-      console.error('Error signing in:', error);
-      setError(error.message || 'An error occurred during sign in');
-      return { error };
-    } finally {
-      setIsLoading(false);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) {
+      throw error;
     }
   };
 
   const signUp = async (email: string, password: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (error) {
-        setError(error.message);
-        return { error };
-      }
-
-      return { error: null };
-    } catch (error: any) {
-      console.error('Error signing up:', error);
-      setError(error.message || 'An error occurred during sign up');
-      return { error };
-    } finally {
-      setIsLoading(false);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    
+    if (error) {
+      throw error;
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        throw error;
-      }
-      
-      setUser(null);
-    } catch (error: any) {
-      console.error('Error signing out:', error);
-      setError(error.message || 'An error occurred during sign out');
-    } finally {
-      setIsLoading(false);
-    }
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/login');
   };
 
-  const value = {
-    user,
-    loading: isLoading, // For backward compatibility
-    isLoading,
-    error,
-    signIn,
-    signUp,
-    signOut: handleSignOut,
-  };
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        signIn,
+        signUp,
+        signOut,
+      }}
+    >
+      {authError ? (
+        <div className="min-h-screen flex items-center justify-center bg-black text-white">
+          <div className="max-w-md p-8 rounded-lg text-center" 
+               style={{
+                 backdropFilter: 'blur(12px)',
+                 backgroundColor: 'rgba(21,21,21,0.7)',
+                 border: '1px solid rgba(51,51,51,0.2)',
+                 boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)'
+               }}>
+            <h2 className="text-2xl font-bold mb-4">Authentication Error</h2>
+            <p className="mb-6">{authError.message || 'An error occurred during authentication'}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-accent text-white rounded"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      ) : (
+        children
+      )}
+    </AuthContext.Provider>
+  );
+}
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthContextProvider');
+  }
+  return context;
+}

@@ -1,0 +1,3 @@
+// This should be a minimal 1x1 pixel image encoded in base64
+// A real space-themed image would be better for production
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFDwJ+0ZTWawAAAABJRU5ErkJggg==

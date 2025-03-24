@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { supabase, handleSupabaseError } from '@/lib/supabase';
-import Link from 'next/link';
+'use client';
 
-interface ImageUploaderProps {
-  eventId: string;
-  onImageUploaded?: (url: string) => void;
+import React, { useState, useEffect } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Link from 'next/link';
+import LoadingSpinner from './LoadingSpinner';
+
+export interface ImageUploaderProps {
+  currentImages?: string[];
+  onChange: (images: string[]) => void;
+  maxImages?: number;
 }
 
-const ImageUploader = ({ eventId, onImageUploaded }: ImageUploaderProps) => {
+export default function ImageUploader({ currentImages = [], onChange, maxImages = 5 }: ImageUploaderProps) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createClientComponentClient();
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
@@ -85,7 +92,7 @@ const ImageUploader = ({ eventId, onImageUploaded }: ImageUploaderProps) => {
       setProgress(25);
       
       const fileExt = file.name.split('.').pop();
-      const fileName = `${eventId}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+      const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
       const filePath = `event-images/${fileName}`;
       
       try {
@@ -111,8 +118,9 @@ const ImageUploader = ({ eventId, onImageUploaded }: ImageUploaderProps) => {
           .getPublicUrl(filePath);
         
         if (urlData && urlData.publicUrl) {
-          // Call the callback with the URL
-          onImageUploaded && onImageUploaded(urlData.publicUrl);
+          // Add the new image to currentImages
+          const updatedImages = [...currentImages, urlData.publicUrl];
+          onChange(updatedImages);
         } else {
           setUploadError('Failed to get public URL for uploaded image');
         }
@@ -126,10 +134,11 @@ const ImageUploader = ({ eventId, onImageUploaded }: ImageUploaderProps) => {
         // 2. Guide users to a workaround
         
         // Example: Generate a placeholder URL
-        const placeholderUrl = `https://placehold.co/600x400/F8F7F2/000000?text=Event:+${encodeURIComponent(eventId)}`;
+        const placeholderUrl = `https://placehold.co/600x400/F8F7F2/000000?text=Event+Image`;
         
-        // Call the callback with the placeholder URL
-        onImageUploaded && onImageUploaded(placeholderUrl);
+        // Add the placeholder to currentImages
+        const updatedImages = [...currentImages, placeholderUrl];
+        onChange(updatedImages);
         
         // Show a helpful message but don't treat it as a fatal error
         setUploadError(
@@ -144,51 +153,86 @@ const ImageUploader = ({ eventId, onImageUploaded }: ImageUploaderProps) => {
     }
   };
 
+  const removeImage = (indexToRemove: number) => {
+    const updatedImages = currentImages.filter((_, index) => index !== indexToRemove);
+    onChange(updatedImages);
+  };
+
   return (
-    <div className="mb-4">
-      <label className="block text-gray-700 text-sm font-bold mb-2">
-        Event Image
-      </label>
-      
-      <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
-        <input
-          type="file"
-          id="image-upload"
-          accept="image/jpeg,image/png,image/gif"
-          onChange={handleFileUpload}
-          disabled={uploading}
-          className="hidden"
-        />
-        
-        <label
-          htmlFor="image-upload"
-          className="cursor-pointer flex flex-col items-center justify-center"
-        >
-          <svg
-            className="w-12 h-12 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            ></path>
-          </svg>
-          <span className="mt-2 text-gray-600">
-            {uploading ? `Uploading... ${progress}%` : 'Click to upload an image'}
-          </span>
+    <div className="space-y-4">
+      {currentImages.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          {currentImages.map((image, index) => (
+            <div key={index} className="relative group">
+              <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200">
+                <img
+                  src={image}
+                  alt={`Uploaded ${index + 1}`}
+                  className="h-32 w-full object-cover"
+                />
+                <button
+                  onClick={() => removeImage(index)}
+                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  title="Remove image"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {currentImages.length < maxImages && (
+        <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
+          <input
+            type="file"
+            id="image-upload"
+            accept="image/jpeg,image/png,image/gif"
+            onChange={handleFileUpload}
+            disabled={uploading}
+            className="hidden"
+          />
           
-          {!storageReady && !uploading && (
-            <span className="text-xs text-yellow-600 mt-1">
-              Using placeholder images for free accounts
+          <label
+            htmlFor="image-upload"
+            className="cursor-pointer flex flex-col items-center justify-center"
+          >
+            <svg
+              className="w-12 h-12 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              ></path>
+            </svg>
+            <span className="mt-2 text-gray-600">
+              {uploading ? (
+                <div className="flex items-center">
+                  <LoadingSpinner size="small" />
+                  <span className="ml-2">Uploading... {progress}%</span>
+                </div>
+              ) : (
+                `Click to upload image (${currentImages.length}/${maxImages})`
+              )}
             </span>
-          )}
-        </label>
-      </div>
+            
+            {!storageReady && !uploading && (
+              <span className="text-xs text-yellow-600 mt-1">
+                Using placeholder images for free accounts
+              </span>
+            )}
+          </label>
+        </div>
+      )}
       
       {uploadError && (
         <div className="mt-2">
@@ -207,12 +251,10 @@ const ImageUploader = ({ eventId, onImageUploaded }: ImageUploaderProps) => {
         </div>
       )}
       
-      <div className="mt-2 text-xs text-gray-500">
+      <div className="text-xs text-gray-500">
         Free accounts use placeholder images. <Link href="/pricing" className="text-black underline">Upgrade</Link> for custom image uploads.
         <span className="italic"> (Coming soon: Free tier will be limited to 3 photos per event)</span>
       </div>
     </div>
   );
-};
-
-export default ImageUploader;
+}

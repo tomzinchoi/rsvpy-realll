@@ -93,19 +93,6 @@ Improved spacing and visual hierarchy
 Added hover states and transitions
 These changes transform the dashboard into a more modern, functional interface while maintaining the light ivory and black color scheme from the design requirements.
 
-
-Maintaining Your Database
-Adding New Columns
-If you need to add new columns to existing tables, create a migration script similar to add_event_image_url.sql:
-
-Backup Strategy
-Regularly back up your database:
-
-Go to "Project Settings → Database"
-Use the "Database Backups" section to create manual backups
-Set up automated backups for production environments
-With this guide, you should be able to use the SQL files to properly set up your Supabase backend for the RSVPY application.
-
 ## 코파일럿 폭주 제동 프롬포트
 
 ok let's take a step by step improving the ui/ux of everything, let's move on to the next steps, and please don't generate too much files at once, you might be stopped by the token limmits also to avoid errors, please follow the design that I have provided, if you are moving on the another section please ask my permision, to avoid errors and try to keep the contants, don't start everyting from scratch, read the files and give modification, you can add new files if the file is rather to long or if you need a new feature

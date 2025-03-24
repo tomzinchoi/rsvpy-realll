@@ -1,134 +1,168 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { useEffect, useState } from 'react';
 
 export default function Header() {
-  const router = useRouter();
   const { user, signOut, isLoading } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Handle scroll effect for header
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSignOut = async () => {
-    await signOut();
-    router.push('/login');
-  };
-
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-ivory shadow-md py-2' : 'bg-ivory py-4'
-    }`}>
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-black hover:opacity-80 transition-opacity">
-          RSVPY
-        </Link>
-        
-        {/* Mobile menu button */}
-        <button 
-          className="md:hidden text-black focus:outline-none"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
-        
-        {/* Desktop navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/" className="text-black hover:underline transition-all">
-            Home
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-black/80 backdrop-blur-lg shadow-md' : 'bg-transparent'
+      }`}
+    >
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+              <span className="text-white font-bold logo-font">R</span>
+            </div>
+            <span className="text-4xl text-gradient font-bold text-white tracking-tight logo-font">RSVPY</span>
           </Link>
-          {!isLoading && user && (
-            <>
-              <Link href="/dashboard" className="text-black hover:underline transition-all">
-                Dashboard
-              </Link>
-              <Link href="/create" className="text-black hover:underline transition-all">
-                Create Event
-              </Link>
-              <Link href="/pricing" className="text-black hover:underline transition-all">
-                Pricing
-              </Link>
-              <button
-                onClick={handleSignOut}
-                className="px-4 py-2 bg-black text-ivory rounded hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50"
-              >
-                Sign Out
-              </button>
-            </>
-          )}
-          {!isLoading && !user && (
-            <>
-              <Link href="/pricing" className="text-black hover:underline transition-all">
-                Pricing
-              </Link>
-              <Link
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link 
+              href="/" 
+              className={`text-sm transition-colors ${
+                pathname === '/' ? 'text-white' : 'text-white/80 hover:text-white'
+              }`}
+            >
+              Home
+            </Link>
+            <Link 
+              href="/pricing" 
+              className={`text-sm transition-colors ${
+                pathname === '/pricing' ? 'text-white' : 'text-white/80 hover:text-white'
+              }`}
+            >
+              Pricing
+            </Link>
+            {user ? (
+              <>
+                <Link 
+                  href="/dashboard" 
+                  className={`text-sm transition-colors ${
+                    pathname === '/dashboard' ? 'text-white' : 'text-white/80 hover:text-white'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                <Link 
+                  href="/create" 
+                  className={`text-sm transition-colors ${
+                    pathname === '/create' ? 'text-white' : 'text-white/80 hover:text-white'
+                  }`}
+                >
+                  Create Event
+                </Link>
+                <button 
+                  onClick={() => signOut()}
+                  className="px-4 py-2 border border-white/20 rounded text-sm text-white hover:bg-white/10 transition-all"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link 
                 href="/login"
-                className="px-4 py-2 bg-black text-ivory rounded hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50"
+                className="px-5 py-2 spacex-button rounded"
               >
                 Sign In
               </Link>
-            </>
-          )}
-        </nav>
+            )}
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-white"
+          >
+            {isMobileMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
-      
-      {/* Mobile navigation */}
-      {mobileMenuOpen && (
-        <nav className="md:hidden bg-ivory border-t border-gray-200 py-3 px-4 space-y-3">
-          <Link href="/" className="block text-black hover:underline py-2">
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-black/95 backdrop-blur-lg pt-4 pb-6 px-4 space-y-4 animate-fade-in">
+          <Link 
+            href="/" 
+            className={`block py-2 text-center ${pathname === '/' ? 'text-accent' : 'text-white'}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             Home
           </Link>
-          {!isLoading && user && (
+          <Link 
+            href="/pricing" 
+            className={`block py-2 text-center ${pathname === '/pricing' ? 'text-accent' : 'text-white'}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Pricing
+          </Link>
+          {user ? (
             <>
-              <Link href="/dashboard" className="block text-black hover:underline py-2">
+              <Link 
+                href="/dashboard" 
+                className={`block py-2 text-center ${pathname === '/dashboard' ? 'text-accent' : 'text-white'}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Dashboard
               </Link>
-              <Link href="/create" className="block text-black hover:underline py-2">
+              <Link 
+                href="/create" 
+                className={`block py-2 text-center ${pathname === '/create' ? 'text-accent' : 'text-white'}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Create Event
               </Link>
-              <Link href="/pricing" className="block text-black hover:underline py-2">
-                Pricing
-              </Link>
-              <button
-                onClick={handleSignOut}
-                className="w-full text-left py-2 text-black hover:underline"
+              <button 
+                onClick={() => {
+                  signOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full py-2 border border-white/20 rounded text-white hover:bg-white/10 transition-all"
               >
                 Sign Out
               </button>
             </>
+          ) : (
+            <Link 
+              href="/login"
+              className="block w-full py-2 bg-accent text-white text-center rounded"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign In
+            </Link>
           )}
-          {!isLoading && !user && (
-            <>
-              <Link href="/pricing" className="block text-black hover:underline py-2">
-                Pricing
-              </Link>
-              <Link
-                href="/login"
-                className="block text-black hover:underline py-2"
-              >
-                Sign In
-              </Link>
-            </>
-          )}
-        </nav>
+        </div>
       )}
     </header>
   );

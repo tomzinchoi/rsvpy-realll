@@ -1,37 +1,48 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter, usePathname } from 'next/navigation';
-import { useEffect } from 'react';
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import LoadingSpinner from './LoadingSpinner';
+import { Database } from '@/lib/database.types';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { user, isLoading } = useAuth(); // Use isLoading instead of loading
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const pathname = usePathname();
+  const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
-    // Only redirect if loading is complete and no user is found
-    if (!isLoading && !user && typeof window !== 'undefined') {
-      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
-    }
-  }, [user, isLoading, router, pathname]);
+    const checkUser = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        
+        if (error || !user) {
+          // Redirect to login if not authenticated
+          router.push('/login');
+        } else {
+          // User is authenticated, we can render the content
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+        router.push('/login');
+      }
+    };
 
-  // Show loading state while determining auth status
+    checkUser();
+  }, [router, supabase]);
+
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+      <div className="min-h-screen bg-[#fffef7] flex justify-center items-center">
+        <LoadingSpinner size="large" />
       </div>
     );
   }
 
-  // If authenticated, show the protected content
-  return user ? <>{children}</> : null;
-};
-
-export default ProtectedRoute;
+  return <>{children}</>;
+}

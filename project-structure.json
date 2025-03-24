@@ -245,6 +245,18 @@
         },
         {
           "type": "file",
+          "name": "InfiniteMarquee.tsx",
+          "path": "rsvpy-realll/components/InfiniteMarquee.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "LoadingSpinner.tsx",
+          "path": "rsvpy-realll/components/LoadingSpinner.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
           "name": "ProtectedRoute.tsx",
           "path": "rsvpy-realll/components/ProtectedRoute.tsx",
           "extension": ".tsx"
@@ -259,6 +271,12 @@
           "type": "file",
           "name": "StorageSetupHelper.tsx",
           "path": "rsvpy-realll/components/StorageSetupHelper.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "TopBanner.tsx",
+          "path": "rsvpy-realll/components/TopBanner.tsx",
           "extension": ".tsx"
         },
         {
@@ -489,7 +507,21 @@
       "type": "directory",
       "name": "public",
       "path": "rsvpy-realll/public",
-      "children": []
+      "children": [
+        {
+          "type": "directory",
+          "name": "fonts",
+          "path": "rsvpy-realll/public/fonts",
+          "children": [
+            {
+              "type": "file",
+              "name": "README.md",
+              "path": "rsvpy-realll/public/fonts/README.md",
+              "extension": ".md"
+            }
+          ]
+        }
+      ]
     },
     {
       "type": "directory",

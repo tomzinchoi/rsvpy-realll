@@ -2,28 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom font for logo */
+@font-face {
+  font-family: 'Moonhouse';
+  src: url('/fonts/Moonhouse-yE5M.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom font for banner */
+@font-face {
+  font-family: 'Quicksilver';
+  src: url('/fonts/QuicksilverItalic-OV9Z4.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+.logo-font {
+  font-family: 'Moonhouse', sans-serif;
+  letter-spacing: 0em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.banner-font {
+  font-family: 'Quicksilver', cursive;
+  letter-spacing: 0.02em;
+}
+
 :root {
-  --background: 60, 10%, 94%;  /* Ivory */
-  --foreground: 0, 0%, 0%;     /* Black */
-  --primary: 0, 0%, 0%;        /* Black for buttons */
-  --primary-foreground: 60, 10%, 94%; /* Ivory for button text */
-  --accent: 25, 70%, 94%;      /* Light peach accent */
-  --muted: 60, 5%, 85%;        /* Muted ivory */
-  --error: 0, 85%, 60%;        /* Error red */
-  --success: 142, 71%, 45%;    /* Success green */
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #404040;
+  --secondary-foreground: #ffffff;
+  --accent: #005288; /* SpaceX blue */
+  --accent-light: #3070b3;
+  --accent-foreground: #ffffff;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --card: rgba(21, 21, 21, 0.8);
+  --card-foreground: #ffffff;
+  --border: #333333;
+  --input: #1f1f1f;
+  --ring: #005288;
+  --hover-card: rgba(40, 40, 40, 0.9);
 }
 
 body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Main content padding to account for fixed header */
-main {
-  padding-top: 5rem;
+/* Styling for the top banner */
+.top-banner {
+  background-color: #000;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  text-align: center;
+  font-weight: 500;
 }
+
+/* Marquee animation for top banner */
+.marquee-wrapper {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Reduce animation speed when user prefers reduced motion */
+@media (prefers-reduced-motion) {
+  .marquee-content {
+    animation-duration: 60s;
+  }
+}
+
+/* Fix header spacing to account for banner */
+header {
+  width: 100%;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  position: sticky;
+  top: 2rem; /* Height of the banner */
+  z-index: 40;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+/* Fix content spacing */
+main {
+  flex: 1;
+  width: 100%;
+  padding-top: 1rem !important;
+}
+
+/* Remove conflicting padding rules */
+/* main {
+  padding-top: 5rem;
+} */
 
 @layer components {
   .btn-primary {
@@ -62,6 +165,65 @@ main {
   .form-label {
     @apply block text-gray-700 text-sm font-bold mb-2;
   }
+
+  .glass-card {
+    /* Replace the problematic @apply with direct CSS */
+    backdrop-filter: blur(12px);
+    background-color: rgba(21, 21, 21, 0.7); /* This replaces bg-card/70 */
+    border: 1px solid rgba(51, 51, 51, 0.2); /* This replaces border-border/20 */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .spacex-button {
+    /* Replace @apply with direct CSS */
+    padding: 0 1.5rem;  /* px-6 */
+    padding-top: 0.5rem; /* py-2 */
+    padding-bottom: 0.5rem; /* py-2 */
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+    transition-property: all;
+    transition-duration: 200ms;
+    text-transform: uppercase;
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    letter-spacing: 0.025em; /* tracking-wide */
+  }
+  
+  .spacex-button:hover {
+    background-color: var(--accent-light);
+  }
+  
+  .spacex-button-outline {
+    /* Replace @apply with direct CSS */
+    padding: 0 1.5rem;  /* px-6 */
+    padding-top: 0.5rem; /* py-2 */
+    padding-bottom: 0.5rem; /* py-2 */
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    transition-property: all;
+    transition-duration: 200ms;
+    text-transform: uppercase;
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    letter-spacing: 0.025em; /* tracking-wide */
+  }
+  
+  .spacex-button-outline:hover {
+    background-color: rgba(0, 82, 136, 0.1); /* This replaces hover:bg-accent/10 */
+  }
+  
+  .hero-section {
+    @apply min-h-[80vh] relative flex items-center justify-center bg-cover bg-center;
+  }
+  
+  .section-divider {
+    @apply w-full h-[1px] bg-gradient-to-r from-transparent via-accent to-transparent my-16;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400;
+  }
 }
 
 /* Animation utilities */
@@ -91,20 +253,107 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add animation for the banner */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Styling for the infinite marquee */
+.marquee-container {
+  background-color: #000; /* Ensure black background */
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.marquee-text {
+  will-change: transform;
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: var(--secondary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #888;
+  background: var(--accent);
+}
+
+/* Better seamless marquee animation */
+.seamless-marquee-container {
+  display: flex;
+  width: max-content;
+  animation: seamless-marquee 20s linear infinite;
+}
+
+.seamless-marquee-content {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+@keyframes seamless-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-25%)); /* Only move by 1/4 of total width */
+  }
+}
+
+/* CSS-only marquee animation fallback */
+.marquee-container {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+.marquee-container::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Make sure existing media queries for reduced motion still apply */
+@media (prefers-reduced-motion) {
+  .marquee-container {
+    animation-duration: 60s;
+  }
 }

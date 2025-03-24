@@ -1,37 +1,42 @@
+'use client';
+
 import React from 'react';
 
 interface BillingToggleProps {
-  billingPeriod: 'monthly' | 'yearly';
-  setBillingPeriod: (period: 'monthly' | 'yearly') => void;
+  value: 'monthly' | 'yearly';
+  onChange: (value: 'monthly' | 'yearly') => void;
 }
 
-const BillingToggle = ({ billingPeriod, setBillingPeriod }: BillingToggleProps) => {
+export default function BillingToggle({ value, onChange }: BillingToggleProps) {
   return (
-    <div className="flex justify-center mb-8">
-      <div className="flex items-center p-1 border border-gray-300 rounded-full">
-        <button
-          onClick={() => setBillingPeriod('monthly')}
-          className={`px-6 py-2 rounded-full text-sm font-medium ${
-            billingPeriod === 'monthly' 
-              ? 'bg-black text-white' 
-              : 'text-gray-600'
+    <div className="flex items-center justify-center space-x-4">
+      <span className={`text-sm font-medium ${value === 'monthly' ? 'text-white' : 'text-gray-400'}`}>
+        Monthly
+      </span>
+      
+      <button
+        type="button"
+        className="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+        style={{ 
+          backgroundColor: value === 'yearly' ? 'var(--accent)' : 'var(--muted)'
+        }}
+        onClick={() => onChange(value === 'monthly' ? 'yearly' : 'monthly')}
+        aria-pressed={value === 'yearly'}
+      >
+        <span className="sr-only">
+          {value === 'monthly' ? 'Enable yearly billing' : 'Enable monthly billing'}
+        </span>
+        <span
+          aria-hidden="true"
+          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+            value === 'yearly' ? 'translate-x-5' : 'translate-x-0'
           }`}
-        >
-          Monthly
-        </button>
-        <button
-          onClick={() => setBillingPeriod('yearly')}
-          className={`px-6 py-2 rounded-full text-sm font-medium ${
-            billingPeriod === 'yearly' 
-              ? 'bg-black text-white' 
-              : 'text-gray-600'
-          }`}
-        >
-          Yearly <span className="text-green-500 font-bold">Save 15%</span>
-        </button>
-      </div>
+        />
+      </button>
+      
+      <span className={`text-sm font-medium ${value === 'yearly' ? 'text-white' : 'text-gray-400'}`}>
+        Yearly
+      </span>
     </div>
   );
-};
-
-export default BillingToggle;
+}

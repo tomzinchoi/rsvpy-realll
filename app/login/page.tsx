@@ -1,128 +1,168 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useAuth } from '@/contexts/AuthContext';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { signIn, signUp, isLoading, error: authError } = useAuth();
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const { user, signIn, signUp, isLoading } = useAuth();
+  const router = useRouter();
+  
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user && !isLoading) {
+      router.push('/dashboard');
+    }
+  }, [user, isLoading, router]);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setSuccessMessage(null);
-
+    setIsSubmitting(true);
+    
     try {
       if (isSignUp) {
-        // Handle sign up
-        const { error } = await signUp(email, password);
-        if (error) {
-          setError(error.message || 'Error creating account. Please try again.');
-          return;
-        }
-        
-        setSuccessMessage('Account created! Please check your email for verification.');
-        setIsSignUp(false);
+        await signUp(email, password);
       } else {
-        // Handle sign in
-        const { error } = await signIn(email, password);
-        if (error) {
-          setError(error.message || 'Invalid email or password.');
-          return;
-        }
-        
-        router.push('/dashboard');
+        await signIn(email, password);
       }
     } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please try again.');
+      console.error('Authentication error:', err);
+      setError(err.message || 'An error occurred during authentication');
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <LoadingSpinner size="large" />
+      </div>
+    );
+  }
+  
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-3xl font-bold text-center mb-6">
-          {isSignUp ? 'Create an Account' : 'Welcome Back'}
-        </h1>
-        
-        {error && (
-          <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
-            {error}
-          </div>
-        )}
-        
-        {authError && (
-          <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
-            {authError}
-          </div>
-        )}
-        
-        {successMessage && (
-          <div className="bg-green-100 text-green-700 p-3 rounded-md mb-4">
-            {successMessage}
-          </div>
-        )}
-        
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email Address
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              required
-            />
-          </div>
-          
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-              required
-              minLength={6}
-            />
-          </div>
-          
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50 disabled:opacity-50"
-          >
-            {isLoading ? 'Processing...' : isSignUp ? 'Create Account' : 'Sign In'}
-          </button>
-        </form>
-        
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => {
-              setIsSignUp(!isSignUp);
-              setError(null);
-              setSuccessMessage(null);
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Image Section */}
+      <div className="hidden md:block md:w-1/2 relative">
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        {/* Background gradient as fallback */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black">
+          {/* Attempt to load the image */}
+          <img 
+            src="/login-background.jpg" 
+            alt=""
+            className="object-cover w-full h-full opacity-60"
+            onError={(e) => {
+              // Hide broken image
+              (e.target as HTMLImageElement).style.display = 'none';
             }}
-            className="text-sm text-gray-600 hover:underline"
-          >
-            {isSignUp
-              ? 'Already have an account? Sign In'
-              : "Don't have an account? Sign Up"}
-          </button>
+          />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="text-center max-w-md px-8">
+            <h1 className="text-4xl font-bold text-white mb-4">Welcome to RSVPY</h1>
+            <p className="text-white/80">
+              Create and manage elegant event invitations with our modern platform
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Form Section */}
+      <div className="w-full md:w-1/2 bg-black flex items-center justify-center px-4 py-12 md:py-0">
+        <div className="glass-card w-full max-w-md p-8 rounded-lg">
+          <div className="mb-8 text-center">
+            <div className="inline-flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                <span className="text-white font-bold">R</span>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold mt-4 text-white">
+              {isSignUp ? 'Create an account' : 'Sign in to your account'}
+            </h2>
+            <p className="mt-2 text-gray-400">
+              {isSignUp 
+                ? 'Start creating amazing events'
+                : 'Welcome back! Please enter your details'}
+            </p>
+          </div>
+          
+          {error && (
+            <div className="bg-red-900/30 border border-red-500/30 text-red-300 px-4 py-3 rounded mb-6">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 bg-input border border-border/30 text-white rounded-md focus:ring-1 focus:ring-accent focus:border-accent"
+                placeholder="Enter your email"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-3 bg-input border border-border/30 text-white rounded-md focus:ring-1 focus:ring-accent focus:border-accent"
+                placeholder="Enter your password"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full spacex-button py-3 rounded-md flex items-center justify-center"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center justify-center">
+                  <LoadingSpinner size="small" />
+                  <span className="ml-3">
+                    {isSignUp ? 'Creating account...' : 'Signing in...'}
+                  </span>
+                </div>
+              ) : (
+                isSignUp ? 'CREATE ACCOUNT' : 'SIGN IN'
+              )}
+            </button>
+          </form>
+          
+          <div className="mt-6 text-center">
+            <button 
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-accent hover:text-accent-light text-sm"
+            >
+              {isSignUp 
+                ? 'Already have an account? Sign in' 
+                : 'Don\'t have an account? Sign up'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
