@@ -23,20 +23,8 @@
     },
     {
       "type": "file",
-      "name": "SETUP.md",
-      "path": "rsvpy-realll/SETUP.md",
-      "extension": ".md"
-    },
-    {
-      "type": "file",
       "name": "SETUP_GUIDE.md",
       "path": "rsvpy-realll/SETUP_GUIDE.md",
-      "extension": ".md"
-    },
-    {
-      "type": "file",
-      "name": "SUPABASE_MANUAL_SETUP.md",
-      "path": "rsvpy-realll/SUPABASE_MANUAL_SETUP.md",
       "extension": ".md"
     },
     {
@@ -186,6 +174,19 @@
               "extension": ".tsx"
             }
           ]
+        },
+        {
+          "type": "directory",
+          "name": "subscribe",
+          "path": "rsvpy-realll/app/subscribe",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/subscribe/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
         }
       ]
     },
@@ -204,6 +205,12 @@
           "type": "file",
           "name": "EmailInviter.tsx",
           "path": "rsvpy-realll/components/EmailInviter.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "EmailNotificationSettings.tsx",
+          "path": "rsvpy-realll/components/EmailNotificationSettings.tsx",
           "extension": ".tsx"
         },
         {
@@ -247,6 +254,142 @@
           "name": "RsvpForm.tsx",
           "path": "rsvpy-realll/components/RsvpForm.tsx",
           "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "StorageSetupHelper.tsx",
+          "path": "rsvpy-realll/components/StorageSetupHelper.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "directory",
+          "name": "dashboard",
+          "path": "rsvpy-realll/components/dashboard",
+          "children": [
+            {
+              "type": "file",
+              "name": "DashboardEventList.tsx",
+              "path": "rsvpy-realll/components/dashboard/DashboardEventList.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "DashboardStatsSection.tsx",
+              "path": "rsvpy-realll/components/dashboard/DashboardStatsSection.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "EventCard.tsx",
+              "path": "rsvpy-realll/components/dashboard/EventCard.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "EventsFilter.tsx",
+              "path": "rsvpy-realll/components/dashboard/EventsFilter.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "NoEventsFound.tsx",
+              "path": "rsvpy-realll/components/dashboard/NoEventsFound.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "StatsCard.tsx",
+              "path": "rsvpy-realll/components/dashboard/StatsCard.tsx",
+              "extension": ".tsx"
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "pricing",
+          "path": "rsvpy-realll/components/pricing",
+          "children": [
+            {
+              "type": "file",
+              "name": "BillingToggle.tsx",
+              "path": "rsvpy-realll/components/pricing/BillingToggle.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "PricingCards.tsx",
+              "path": "rsvpy-realll/components/pricing/PricingCards.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "PricingFaq.tsx",
+              "path": "rsvpy-realll/components/pricing/PricingFaq.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "directory",
+              "name": "plan-cards",
+              "path": "rsvpy-realll/components/pricing/plan-cards",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "FreePlanCard.tsx",
+                  "path": "rsvpy-realll/components/pricing/plan-cards/FreePlanCard.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "PremiumPlanCard.tsx",
+                  "path": "rsvpy-realll/components/pricing/plan-cards/PremiumPlanCard.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "ProPlanCard.tsx",
+                  "path": "rsvpy-realll/components/pricing/plan-cards/ProPlanCard.tsx",
+                  "extension": ".tsx"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "setup",
+          "path": "rsvpy-realll/components/setup",
+          "children": [
+            {
+              "type": "file",
+              "name": "ConfigCheck.tsx",
+              "path": "rsvpy-realll/components/setup/ConfigCheck.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "NextStepsGuide.tsx",
+              "path": "rsvpy-realll/components/setup/NextStepsGuide.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "SetupWizard.tsx",
+              "path": "rsvpy-realll/components/setup/SetupWizard.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "StorageInfo.tsx",
+              "path": "rsvpy-realll/components/setup/StorageInfo.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "SubscriptionBenefits.tsx",
+              "path": "rsvpy-realll/components/setup/SubscriptionBenefits.tsx",
+              "extension": ".tsx"
+            }
+          ]
         }
       ]
     },
@@ -361,9 +504,49 @@
       "children": [
         {
           "type": "directory",
-          "name": "app",
-          "path": "rsvpy-realll/src/app",
-          "children": []
+          "name": "lib",
+          "path": "rsvpy-realll/src/lib",
+          "children": [
+            {
+              "type": "file",
+              "name": "database.types.ts",
+              "path": "rsvpy-realll/src/lib/database.types.ts",
+              "extension": ".ts"
+            },
+            {
+              "type": "file",
+              "name": "supabase.ts",
+              "path": "rsvpy-realll/src/lib/supabase.ts",
+              "extension": ".ts"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "directory",
+      "name": "supabase",
+      "path": "rsvpy-realll/supabase",
+      "children": [
+        {
+          "type": "directory",
+          "name": "functions",
+          "path": "rsvpy-realll/supabase/functions",
+          "children": [
+            {
+              "type": "directory",
+              "name": "send-rsvp-notification",
+              "path": "rsvpy-realll/supabase/functions/send-rsvp-notification",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "index.js",
+                  "path": "rsvpy-realll/supabase/functions/send-rsvp-notification/index.js",
+                  "extension": ".js"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -378,6 +561,19 @@
       "name": "tsconfig.json",
       "path": "rsvpy-realll/tsconfig.json",
       "extension": ".json"
+    },
+    {
+      "type": "directory",
+      "name": "types",
+      "path": "rsvpy-realll/types",
+      "children": [
+        {
+          "type": "file",
+          "name": "event.ts",
+          "path": "rsvpy-realll/types/event.ts",
+          "extension": ".ts"
+        }
+      ]
     }
   ]
 }

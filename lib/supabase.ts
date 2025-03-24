@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 
 // Retrieve environment variables with fallbacks for development
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project-id.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-anon-key';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 // Ensure we have valid values for the Supabase URL and key
 if (!supabaseUrl || supabaseUrl === 'https://your-project-id.supabase.co' || 
@@ -11,17 +11,27 @@ if (!supabaseUrl || supabaseUrl === 'https://your-project-id.supabase.co' ||
   console.error('WARNING: Supabase URL or anonymous key is missing or using placeholder values. Authentication will not work correctly.');
 }
 
-// Create the Supabase client with error handling
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+// Create the Supabase client with more verbose logging in development
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+  },
+});
 
 // Improved error handling for Supabase operations
 export async function handleSupabaseError(promise: Promise<any>) {
-  const { data, error } = await promise;
-  if (error) {
-    console.error('Supabase Error:', error.message);
-    throw new Error(error.message);
+  try {
+    const { data, error } = await promise;
+    if (error) {
+      console.error('Supabase Error:', error.message, error.details, error.hint);
+      throw new Error(error.message || 'Database operation failed');
+    }
+    return { data, error: null };
+  } catch (err: any) {
+    console.error('Unexpected Supabase error:', err);
+    return { data: null, error: err };
   }
-  return data;
 }
 
 // Wrap the auth calls in try-catch blocks to prevent undefined errors
@@ -70,4 +80,9 @@ export const signUpWithEmail = async (email: string, password: string) => {
     console.error('Unexpected error signing up:', err);
     return { data: null, error: new Error('Failed to sign up') };
   }
+};
+
+// Helper function to create component client
+export const createClientComponentClient = () => {
+  return createClient(supabaseUrl, supabaseAnonKey);
 };
