@@ -182,23 +182,23 @@ export default function HomePage() {
               items={[
                 {
                   quote: "Sample text for the first testimonial.",
-                  author: "Sarah J., Event Manager"
+                  author: "Sample Name, Event Organizer"
                 },
                 {
                   quote: "Sample text for the second testimonial.",
-                  author: "Michael & David"
+                  author: "Sample Name, Event Organizer"
                 },
                 {
                   quote: "Sample text for the third testimonial.",
-                  author: "Elena R., Party Planner"
+                  author: "Sample Name, Event Organizer"
                 },
                 {
                   quote: "Sample text for the fourth testimonial.",
-                  author: "Thomas K., Conference Director"
+                  author: "Sample Name, Event Organizer"
                 },
                 {
                   quote: "Sample text for the fifth testimonial.",
-                  author: "Priya M., Marketing Executive"
+                  author: "Sample Name, Event Organizer"
                 }
               ]}
             />

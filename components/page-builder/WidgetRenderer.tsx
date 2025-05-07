@@ -9,7 +9,6 @@ import GalleryWidget from './widgets/GalleryWidget';
 import MapWidget from './widgets/MapWidget';
 import RsvpFormWidget from './widgets/RsvpFormWidget';
 import CountdownWidget from './widgets/CountdownWidget';
-import CalendarWidget from './widgets/CalendarWidget';
 
 interface WidgetRendererProps {
   widget: Widget;
@@ -34,7 +33,7 @@ const WidgetRenderer: React.FC<WidgetRendererProps> = ({ widget, isEditing }) =>
     case 'countdown':
       return <CountdownWidget widget={widget} isEditing={isEditing} />;
     case 'calendar':
-      return <CalendarWidget widget={widget} isEditing={isEditing} />;
+      return <div>Calendar Widget (Coming Soon)</div>;
     default:
       return <div>Unknown widget type</div>;
   }

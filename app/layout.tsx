@@ -58,7 +58,7 @@ export default function RootLayout({
               </div>
               
               <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p className="text-xs mb-4 md:mb-0">© {new Date().getFullYear()} RSVPY. All rights reserved.</p>
+                <p className="text-xs mb-4 md:mb-0">© {new Date().getFullYear()} RSVPY. All rights reserved. | On development | Chulung Choi</p>
                 <div className="flex space-x-4">
                   <a href="#" className="text-muted-foreground hover:text-primary">
                     <span className="sr-only">Twitter</span>
