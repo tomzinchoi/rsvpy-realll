@@ -2,13 +2,6 @@
 
 import React from 'react';
 import { Widget } from '@/contexts/PageBuilderContext';
-import HeaderWidget from './widgets/HeaderWidget';
-import TextWidget from './widgets/TextWidget';
-import ImageWidget from './widgets/ImageWidget';
-import GalleryWidget from './widgets/GalleryWidget';
-import MapWidget from './widgets/MapWidget';
-import RsvpFormWidget from './widgets/RsvpFormWidget';
-import CountdownWidget from './widgets/CountdownWidget';
 
 interface WidgetRendererProps {
   widget: Widget;
@@ -16,27 +9,15 @@ interface WidgetRendererProps {
 }
 
 const WidgetRenderer: React.FC<WidgetRendererProps> = ({ widget, isEditing }) => {
-  // Render different widget types
-  switch (widget.type) {
-    case 'header':
-      return <HeaderWidget widget={widget} isEditing={isEditing} />;
-    case 'text':
-      return <TextWidget widget={widget} isEditing={isEditing} />;
-    case 'image':
-      return <ImageWidget widget={widget} isEditing={isEditing} />;
-    case 'gallery':
-      return <GalleryWidget widget={widget} isEditing={isEditing} />;
-    case 'map':
-      return <MapWidget widget={widget} isEditing={isEditing} />;
-    case 'rsvp-form':
-      return <RsvpFormWidget widget={widget} isEditing={isEditing} />;
-    case 'countdown':
-      return <CountdownWidget widget={widget} isEditing={isEditing} />;
-    case 'calendar':
-      return <div>Calendar Widget (Coming Soon)</div>;
-    default:
-      return <div>Unknown widget type</div>;
-  }
+  // 모든 위젯 타입에 대해 동일한 임시 컴포넌트 반환
+  return (
+    <div className="widget p-4 border rounded">
+      <h3 className="font-medium">{widget.type} 위젯 {isEditing ? "(편집 모드)" : ""}</h3>
+      <p className="text-sm mt-2">
+        {isEditing ? "편집 기능은 현재 개발 중입니다." : "이 기능은 현재 개발 중입니다."}
+      </p>
+    </div>
+  );
 };
 
 export default WidgetRenderer;
