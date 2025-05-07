@@ -19,7 +19,7 @@ const RsvpFormWidget: React.FC<RsvpFormWidgetProps> = ({ widget, isEditing }) =>
           <input 
             type="text" 
             className="w-full p-2 border rounded"
-            placeholder="이름을 입력하세요"
+            placeholder="Type your name"
             disabled={isEditing}
           />
         </div>

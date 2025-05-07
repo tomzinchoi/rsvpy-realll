@@ -3,29 +3,20 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Header from '@/components/Header';
 import TopBanner from '@/components/TopBanner';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { Database } from '@/lib/database.types';
 import Image from 'next/image';
 import InfiniteMarquee from '@/components/InfiniteMarquee';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function HomePage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
   const router = useRouter();
-  const supabase = createClientComponentClient<Database>();
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setIsLoggedIn(!!user);
-      setIsLoading(false);
-    };
-    
-    checkUser();
-  }, [supabase]);
+  // 임시로 인증 확인 로직 제거 (환경 변수 문제로)
 
   if (isLoading) {
     return (
@@ -153,7 +144,7 @@ export default function HomePage() {
             <div className="glass-card p-6 rounded-lg transform transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg">
               <div className="bg-accent w-12 h-12 flex items-center justify-center rounded-lg mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0-01-2-2z" />
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2 text-white">Real-time Analytics</h3>

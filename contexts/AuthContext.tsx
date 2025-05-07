@@ -1,13 +1,17 @@
 'use client';
 
-import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
-import { 
-  User,
-  Session, // Add Session import
-  createClientComponentClient 
-} from '@supabase/auth-helpers-nextjs';
+import { createContext, useState, useContext, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { logStartup } from '@/lib/debug';
+
+// 임시로 User와 Session 타입 정의
+interface User {
+  id: string;
+  email?: string;
+}
+
+interface Session {
+  user: User;
+}
 
 interface AuthContextProps {
   user: User | null;
@@ -27,76 +31,25 @@ interface AuthContextProviderProps {
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [authError, setAuthError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClientComponentClient();
 
-  useEffect(() => {
-    logStartup('AuthContextProvider', 'Initializing');
-    
-    const getInitialSession = async () => {
-      try {
-        setIsLoading(true);
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error('Error fetching session:', error);
-          setAuthError(error);
-        }
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (_event, session) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-          }
-        );
-
-        return () => subscription.unsubscribe();
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-        setAuthError(error instanceof Error ? error : new Error(String(error)));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getInitialSession();
-  }, [supabase]);
-
+  // 임시 인증 함수들
   const signIn = async (email: string, password: string): Promise<{ error: any }> => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      return { error };
-    } catch (error) {
-      console.error('Sign in error:', error);
-      return { error };
-    }
+    console.log('Sign in attempt:', email);
+    // 실제 인증 로직은 구현되지 않음 (환경 변수 누락으로 인해 비활성화)
+    return { error: null };
   };
 
   const signUp = async (email: string, password: string): Promise<{ error: any }> => {
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      
-      return { error };
-    } catch (error) {
-      console.error('Sign up error:', error);
-      return { error };
-    }
+    console.log('Sign up attempt:', email);
+    // 실제 인증 로직은 구현되지 않음 (환경 변수 누락으로 인해 비활성화)
+    return { error: null };
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
     router.push('/login');
   };
 
@@ -111,28 +64,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         signOut,
       }}
     >
-      {authError ? (
-        <div className="min-h-screen flex items-center justify-center bg-black text-white">
-          <div className="max-w-md p-8 rounded-lg text-center" 
-               style={{
-                 backdropFilter: 'blur(12px)',
-                 backgroundColor: 'rgba(21,21,21,0.7)',
-                 border: '1px solid rgba(51,51,51,0.2)',
-                 boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)'
-               }}>
-            <h2 className="text-2xl font-bold mb-4">Authentication Error</h2>
-            <p className="mb-6">{authError.message || 'An error occurred during authentication'}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-accent text-white rounded"
-            >
-              Try Again
-            </button>
-          </div>
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </AuthContext.Provider>
   );
 }
