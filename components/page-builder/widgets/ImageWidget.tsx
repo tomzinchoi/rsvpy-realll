@@ -12,10 +12,10 @@ const ImageWidget: React.FC<ImageWidgetProps> = ({ widget, isEditing }) => {
   return (
     <div className="widget image-widget p-4 border rounded">
       <div className="image-container relative w-full">
-        {widget.data?.imageUrl ? (
+        {widget.content?.imageUrl ? (
           <img
-            src={widget.data.imageUrl}
-            alt={widget.data?.altText || "Image"}
+            src={widget.content.imageUrl}
+            alt={widget.content?.altText || "Image"}
             className="w-full h-auto rounded"
           />
         ) : (
@@ -24,8 +24,8 @@ const ImageWidget: React.FC<ImageWidgetProps> = ({ widget, isEditing }) => {
           </div>
         )}
       </div>
-      {widget.data?.caption && (
-        <p className="text-sm text-gray-500 mt-2">{widget.data.caption}</p>
+      {widget.content?.caption && (
+        <p className="text-sm text-gray-500 mt-2">{widget.content.caption}</p>
       )}
     </div>
   );

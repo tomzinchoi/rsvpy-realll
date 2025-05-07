@@ -9,7 +9,7 @@ interface CountdownWidgetProps {
 }
 
 const CountdownWidget: React.FC<CountdownWidgetProps> = ({ widget, isEditing }) => {
-  const targetDate = widget.data?.targetDate || new Date().toISOString();
+  const targetDate = widget.content?.targetDate || new Date().toISOString();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -38,7 +38,7 @@ const CountdownWidget: React.FC<CountdownWidgetProps> = ({ widget, isEditing }) 
 
   return (
     <div className="widget countdown-widget p-4 border rounded text-center">
-      <h3 className="text-lg font-medium mb-3">{widget.data?.title || "Event Countdown"}</h3>
+      <h3 className="text-lg font-medium mb-3">{widget.content?.title || "Event Countdown"}</h3>
       
       <div className="grid grid-cols-4 gap-2">
         <div className="bg-gray-100 p-3 rounded">
@@ -59,8 +59,8 @@ const CountdownWidget: React.FC<CountdownWidgetProps> = ({ widget, isEditing }) 
         </div>
       </div>
       
-      {widget.data?.description && (
-        <p className="text-sm text-gray-600 mt-3">{widget.data.description}</p>
+      {widget.content?.description && (
+        <p className="text-sm text-gray-600 mt-3">{widget.content.description}</p>
       )}
     </div>
   );

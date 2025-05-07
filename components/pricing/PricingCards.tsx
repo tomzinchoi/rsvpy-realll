@@ -21,7 +21,7 @@ export default function PricingCards() {
     free: {
       name: 'Free',
       description: 'Perfect for small events and personal use',
-      price: "$0",
+      price: 0, // 문자열 "$0"에서 숫자 0으로 변경
       features: [
         'Up to 3 events per month',
         'Basic event pages',

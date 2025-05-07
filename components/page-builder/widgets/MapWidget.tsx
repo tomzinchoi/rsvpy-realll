@@ -9,7 +9,7 @@ interface MapWidgetProps {
 }
 
 const MapWidget: React.FC<MapWidgetProps> = ({ widget, isEditing }) => {
-  const location = widget.data?.location;
+  const location = widget.content?.location;
   
   return (
     <div className="widget map-widget p-4 border rounded">

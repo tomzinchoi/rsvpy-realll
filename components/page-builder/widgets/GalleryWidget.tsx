@@ -3,19 +3,25 @@
 import React from 'react';
 import { Widget } from '@/contexts/PageBuilderContext';
 
+interface ImageItem {
+  url: string;
+  alt?: string;
+  caption?: string;
+}
+
 interface GalleryWidgetProps {
   widget: Widget;
   isEditing: boolean;
 }
 
 const GalleryWidget: React.FC<GalleryWidgetProps> = ({ widget, isEditing }) => {
-  const images = widget.data?.images || [];
+  const images = widget.content?.images || [] as ImageItem[];
   
   return (
     <div className="widget gallery-widget p-4 border rounded">
       {images.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {images.map((image, index) => (
+          {images.map((image: ImageItem, index: number) => (
             <div key={index} className="gallery-item">
               <img
                 src={image.url}
