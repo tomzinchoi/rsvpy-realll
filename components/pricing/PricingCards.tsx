@@ -21,7 +21,7 @@ export default function PricingCards() {
     free: {
       name: 'Free',
       description: 'Perfect for small events and personal use',
-      price: 0,
+      price: "$0",
       features: [
         'Up to 3 events per month',
         'Basic event pages',

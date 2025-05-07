@@ -181,23 +181,23 @@ export default function HomePage() {
             <InfiniteMarquee
               items={[
                 {
-                  quote: "RSVPY transformed how I manage my corporate events. The analytics are incredible.",
+                  quote: "Sample text for the first testimonial.",
                   author: "Sarah J., Event Manager"
                 },
                 {
-                  quote: "The sleek design of my wedding invitation impressed all our guests. Highly recommended!",
+                  quote: "Sample text for the second testimonial.",
                   author: "Michael & David"
                 },
                 {
-                  quote: "I've tried many RSVP platforms, but RSVPY's custom forms give me exactly what I need.",
+                  quote: "Sample text for the third testimonial.",
                   author: "Elena R., Party Planner"
                 },
                 {
-                  quote: "As a tech conference organizer, RSVPY's modern interface aligns perfectly with our brand.",
+                  quote: "Sample text for the fourth testimonial.",
                   author: "Thomas K., Conference Director"
                 },
                 {
-                  quote: "The real-time updates and notifications are game-changers for event management.",
+                  quote: "Sample text for the fifth testimonial.",
                   author: "Priya M., Marketing Executive"
                 }
               ]}

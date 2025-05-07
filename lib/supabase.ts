@@ -1,23 +1,29 @@
 import { createClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
 
-// Retrieve environment variables with fallbacks for development
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+// Get environment variables
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-// Ensure we have valid values for the Supabase URL and key
-if (!supabaseUrl || supabaseUrl === 'https://your-project-id.supabase.co' || 
-    !supabaseAnonKey || supabaseAnonKey === 'your-anon-key') {
-  console.error('WARNING: Supabase URL or anonymous key is missing or using placeholder values. Authentication will not work correctly.');
+// Validate environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error(
+    'Missing environment variables for Supabase. Please check your .env.local file.'
+  );
 }
 
-// Create the Supabase client with more verbose logging in development
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+// Create client with explicit type assertion to fix TypeScript errors
+export const supabase = createClient<Database>(
+  supabaseUrl ?? '',
+  supabaseAnonKey ?? '',
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    }
+  }
+);
 
 // Improved error handling for Supabase operations
 export async function handleSupabaseError(promise: Promise<any>) {
@@ -84,5 +90,17 @@ export const signUpWithEmail = async (email: string, password: string) => {
 
 // Helper function to create component client
 export const createClientComponentClient = () => {
-  return createClient(supabaseUrl, supabaseAnonKey);
+  return createClient<Database>(supabaseUrl ?? '', supabaseAnonKey ?? '');
+};
+
+// Utility function to check auth status
+export const checkAuthStatus = async () => {
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    return { session: data.session, error: null };
+  } catch (error) {
+    console.error('Auth check failed:', error);
+    return { session: null, error };
+  }
 };

@@ -1,41 +1,273 @@
+## My Working Process
+
+1. **Read First, Code Second**: I'll examine existing files before suggesting any new code to prevent conflicts
+2. **Incremental Development**: I'll focus on one feature at a time rather than generating everything at once
+3. **Progress Tracking**: I'll update `process.md` to keep track of our progress
+4. **Alignment Check**: I'll regularly verify we're following the roadmap in `project_prompt.md`
+5. **Completion Markers**: I'll note when sections are completed
+
+## Development Priority Order
+
+Based on the roadmap you provided, here's the suggested order of implementation:
+
+### Phase 1: Core Event Page Builder
+1. User authentication system
+2. Basic event data model
+3. Template system (3-5 initial designs)
+4. Drag-and-drop editor implementation
+5. Basic RSVP functionality
+6. Publishing system with unique URLs
+
+### Phase 2: Widget System & RSVP Management
+1. Widget architecture
+2. Individual widgets (calendar, video, gallery, map, text, social)
+3. Enhanced RSVP system
+4. Guest management dashboard
+5. Email notification system
+
+### Phase 3: AI Features & Premium Options
+1. AI design assistance
+2. Template recommendations
+3. Custom domain support
+4. Advanced analytics
+5. Collaboration features
+
+### Phase 4: Marketplace & Ecosystem
+1. Template marketplace infrastructure
+2. API development
+3. Third-party integrations
+4. Community features
+
+### Phase 5: Mobile & Global Expansion
+1. Mobile optimization
+2. Native app development
+3. Internationalization
+4. Regional payment methods
+
+## Action Plan
+
+For each feature, I'll:
+1. Check existing code to understand current implementation
+2. Propose specific code changes/additions
+3. Test for conflicts or issues
+4. Document progress in `process.md`
+5. Move to the next priority item
+
+Let me know if this approach works for you. I'm ready to begin by examining your existing codebase to determine where we currently stand in the development process.
+
+# Event Page Builder Development Plan
+**Document Date:** 2025-03-24 07:22:01 (UTC)  
+**Prepared By:** tomzinchoi
+
 ## Project Overview
-RSVPY is a mobile-friendly web application for creating, sharing, and managing invitations and RSVPs, built on Supabase. The design features a light ivory background with elegant black buttons.(start-up)
 
-## Tech Stack
-- **Frontend**: Next.js, React, TypeScript
-- **Backend**: Supabase
-- **Styling**: CSS (custom), Tailwind CSS (optional)
-- **Tools**: Visual Studio Code (VS Code), Git, GitHub
+This document outlines the development plan for an advanced event page builder platform. The system will enable users to create professional, customizable event pages with integrated RSVP management capabilities. The platform aims to serve various use cases including wedding invitations, party invites, club entrances, and small business events.
 
-## Initial Setup
-1. Create project structure
-2. Generate basic files and folders
-3. Install initial dependencies
-4. Configure Supabase connection
+The core value proposition is a highly intuitive interface inspired by Adobe Express, enabling users to create visually impressive event pages without technical knowledge. The platform will gradually evolve from basic event pages to a comprehensive event management ecosystem.
 
-## Design Requirements
-- Light ivory background
-- Elegant black buttons
-- Mobile-friendly design
-- Intuitive editing features (click "+" between content to add elements)
-- Editing options for calendars, photos, font size/weight/alignment
+## Development Roadmap
 
-## Event Management Dashboard
-- Manage view counts and growth rates
-- Elegant and intuitive layout
-- Smooth UI/UX
+### Phase 1: Core Event Page Builder (4-6 weeks)
 
-## RSVP Form Customization
-- Provide various customization options like sliders, checkboxes, etc.
+**Objective:** Implement the foundational event page builder functionality on our existing website skeleton.
 
-## RSVP Form Customization
-- Provide various customization options like sliders, checkboxes, etc.
+**Key Deliverables:**
+1. Creation of basic event pages with essential information (title, date/time, location, description)
+2. 3-5 professionally designed templates 
+3. Color, font, and basic layout customization options
+4. Simple RSVP button/form
+5. Publishing system with unique URLs for each event page
 
-## Email Sending Feature
-- Send invitations via email
-- Track the status of sent emails (sent, opened, etc.)
+**Technical Requirements:**
+- Drag-and-drop editor using React (Craft.js or react-dnd)
+- Responsive templates for mobile and desktop compatibility
+- Template rendering system
+- User authentication and page ownership management
+- Publishing system with unique URL generation
 
-## Additional Requirements
-- Consistent UI/UX throughout the application
-- Write efficient and optimized code
-- Minimize compile errors and file conflicts
+**Priority:** Quality over quantity for templates. Focus on making the editor extremely intuitive and the resulting pages visually impressive.
+
+### Phase 2: Enhanced Widget System & RSVP Management (4-6 weeks)
+
+**Objective:** Implement an advanced widget system and comprehensive RSVP management functionality.
+
+**Key Deliverables:**
+
+1. Widget System:
+   - Calendar widget with event schedule
+   - YouTube/video embedding capabilities
+   - Image gallery with upload functionality
+   - Location map integration
+   - Custom text blocks with rich formatting
+   - Social media integration widgets
+
+2. RSVP System:
+   - Custom form builder for collecting guest information
+   - Response tracking dashboard
+   - Guest list management tools
+   - Automated email confirmations
+   - QR code generation for check-ins
+   - Capacity management and waitlisting features
+
+**Technical Requirements:**
+- Modular widget architecture
+- Intuitive widget configuration UI
+- Secure data storage for RSVP responses
+- Analytics dashboard for hosts
+- Mobile-responsive widget design
+- Email notification system
+
+**Priority:** Simple widget addition and configuration while maintaining high customization options.
+
+### Phase 3: AI Enhancement & Premium Features (6-8 weeks)
+
+**Objective:** Implement AI-assisted design tools and premium features to differentiate the platform.
+
+**Key Deliverables:**
+
+1. AI-Assisted Design:
+   - Smart template recommendations based on event type
+   - Auto-layout suggestions for optimal content placement
+   - Color scheme generator based on uploaded images or themes
+   - Text/copy suggestions for different sections
+   - Design quality checker with improvement suggestions
+
+2. Premium Features:
+   - Custom domain mapping
+   - Password protection and private pages
+   - Advanced analytics (visitor tracking, engagement metrics)
+   - Real-time collaboration for teams
+   - Animated elements and transitions
+   - Advanced customization options (CSS access)
+
+**Technical Requirements:**
+- Machine learning model integration for design assistance
+   - OpenAI API for text suggestions
+   - Computer vision for image analysis
+- Custom domain management system
+- Collaboration backend with conflict resolution
+- Analytics engine with visualization tools
+- Premium template marketplace infrastructure
+
+**Priority:** Features that showcase clear value for potential paying customers. Ensure AI features provide genuine assistance rather than gimmicky features.
+
+### Phase 4: Marketplace & Ecosystem Development (6-8 weeks)
+
+**Objective:** Build out the platform ecosystem to create additional value and revenue streams.
+
+**Key Deliverables:**
+
+1. Template Marketplace:
+   - Designer onboarding system
+   - Template submission and review process
+   - Revenue sharing model
+   - Template categorization and search
+   - Customer ratings and feedback system
+
+2. Integration Ecosystem:
+   - API development for third-party integrations
+   - Integration with popular services (Zoom, Google Calendar, Slack)
+   - Webhook support for custom integrations
+   - Developer documentation and SDKs
+   - Partner program structure
+
+3. Community Features:
+   - Inspiration gallery of successful event pages
+   - Host community forums and knowledge base
+   - Event promotion features and discovery tools
+   - Analytics benchmarking across similar events
+
+**Technical Requirements:**
+- Marketplace backend with payment processing
+- API gateway and documentation system
+- Testing environment for third-party developers
+- Review system for templates
+- Discovery and recommendation engine
+- Community platform infrastructure
+
+**Priority:** Creating strong incentives for quality content creation by designers and valuable integrations by developers.
+
+### Phase 5: Mobile Experience & Global Expansion (6-8 weeks)
+
+**Objective:** Optimize for mobile platforms and expand to global markets.
+
+**Key Deliverables:**
+
+1. Mobile Experience:
+   - Native mobile app for iOS and Android
+   - Mobile-first editor experience
+   - Offline editing capabilities
+   - Push notifications for hosts and guests
+   - Mobile check-in system for events
+
+2. Global Expansion Features:
+   - Multi-language support (UI translation)
+   - Localized templates for different cultures/regions
+   - Region-specific payment methods
+   - Time zone management
+   - Compliance with regional data privacy laws (GDPR, CCPA, etc.)
+
+**Technical Requirements:**
+- React Native or Flutter mobile application
+- Internationalization (i18n) framework
+- Location-aware content delivery system
+- Adaptive UI for various screen sizes and orientations
+- Regional CDN deployment
+- Multiple payment gateway integrations
+
+**Priority:** Creating a seamless experience between desktop and mobile, ensuring users can manage their events from anywhere with equal ease.
+
+## Implementation Guidelines
+
+### Key Development Principles
+
+1. **User-centric development:** Test all features with real users before full deployment
+2. **Performance first:** Keep page load times under 2 seconds, editor responsiveness under 100ms
+3. **Progressive enhancement:** Core functionality works everywhere, enhanced features where supported
+4. **Accessibility:** Maintain WCAG 2.1 AA compliance throughout development
+5. **Security:** Regular penetration testing, especially for user data and payment systems
+
+### Prioritization Guide
+
+- Always prioritize stability over new features
+- Focus on delivering exceptional UX for core features before expanding
+- Continuously gather user feedback and adjust roadmap accordingly
+- Track key metrics: user retention, completion rate, time-to-publish, NPS
+
+### Recommended Technology Stack
+
+- **Frontend:** React/Next.js with TypeScript
+- **State Management:** Redux or Context API with hooks
+- **Design System:** Tailwind CSS or styled-components
+- **Backend:** Node.js or Python with appropriate frameworks
+- **Database:** MongoDB for flexible schema, PostgreSQL for relational data
+- **Cloud:** AWS or GCP with serverless where possible
+- **CDN:** Cloudflare or Akamai for global delivery
+
+### Success Factors
+
+1. **Technical Differentiation:**
+   - AI-powered design assistance
+   - Ultra-fast page loading
+   - Seamless real-time collaboration
+
+2. **Event-Specific Features:**
+   - Integrated guest management
+   - Dynamic event content
+   - Comprehensive event analytics
+
+3. **User Experience:**
+   - "10-minute completion" promise
+   - Mobile-first editor
+   - Zero-code customization
+
+4. **Business Model:**
+   - Premium template marketplace
+   - Event size-based pricing
+   - Strategic B2B partnerships
+
+Each phase should include comprehensive documentation, automated testing, and detailed analytics implementation.
+
+---
+
+This development plan represents a structured approach to building a competitive event page creation platform that can evolve into a comprehensive event management ecosystem. Implementation should follow the outlined phases while remaining flexible to user feedback and market conditions.

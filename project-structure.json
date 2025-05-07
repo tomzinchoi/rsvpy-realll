@@ -17,14 +17,14 @@
     },
     {
       "type": "file",
-      "name": "README.md",
-      "path": "rsvpy-realll/README.md",
+      "name": "AI_assistant_rules.md",
+      "path": "rsvpy-realll/AI_assistant_rules.md",
       "extension": ".md"
     },
     {
       "type": "file",
-      "name": "SETUP_GUIDE.md",
-      "path": "rsvpy-realll/SETUP_GUIDE.md",
+      "name": "README.md",
+      "path": "rsvpy-realll/README.md",
       "extension": ".md"
     },
     {
@@ -80,6 +80,26 @@
         },
         {
           "type": "directory",
+          "name": "editor",
+          "path": "rsvpy-realll/app/editor",
+          "children": [
+            {
+              "type": "directory",
+              "name": "[id]",
+              "path": "rsvpy-realll/app/editor/[id]",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "page.tsx",
+                  "path": "rsvpy-realll/app/editor/[id]/page.tsx",
+                  "extension": ".tsx"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "directory",
           "name": "event",
           "path": "rsvpy-realll/app/event",
           "children": [
@@ -108,6 +128,12 @@
           "type": "file",
           "name": "layout.tsx",
           "path": "rsvpy-realll/app/layout.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "loading.tsx",
+          "path": "rsvpy-realll/app/loading.tsx",
           "extension": ".tsx"
         },
         {
@@ -187,6 +213,19 @@
               "extension": ".tsx"
             }
           ]
+        },
+        {
+          "type": "directory",
+          "name": "test-loading",
+          "path": "rsvpy-realll/app/test-loading",
+          "children": [
+            {
+              "type": "file",
+              "name": "page.tsx",
+              "path": "rsvpy-realll/app/test-loading/page.tsx",
+              "extension": ".tsx"
+            }
+          ]
         }
       ]
     },
@@ -211,6 +250,12 @@
           "type": "file",
           "name": "EmailNotificationSettings.tsx",
           "path": "rsvpy-realll/components/EmailNotificationSettings.tsx",
+          "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "ErrorBoundary.tsx",
+          "path": "rsvpy-realll/components/ErrorBoundary.tsx",
           "extension": ".tsx"
         },
         {
@@ -324,6 +369,148 @@
         },
         {
           "type": "directory",
+          "name": "event-creation",
+          "path": "rsvpy-realll/components/event-creation",
+          "children": [
+            {
+              "type": "file",
+              "name": "EventCreationWizard.tsx",
+              "path": "rsvpy-realll/components/event-creation/EventCreationWizard.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "directory",
+              "name": "steps",
+              "path": "rsvpy-realll/components/event-creation/steps",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "BasicInfoStep.tsx",
+                  "path": "rsvpy-realll/components/event-creation/steps/BasicInfoStep.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "DesignStep.tsx",
+                  "path": "rsvpy-realll/components/event-creation/steps/DesignStep.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "NotificationsStep.tsx",
+                  "path": "rsvpy-realll/components/event-creation/steps/NotificationsStep.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "ReviewStep.tsx",
+                  "path": "rsvpy-realll/components/event-creation/steps/ReviewStep.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "RsvpOptionsStep.tsx",
+                  "path": "rsvpy-realll/components/event-creation/steps/RsvpOptionsStep.tsx",
+                  "extension": ".tsx"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "directory",
+          "name": "page-builder",
+          "path": "rsvpy-realll/components/page-builder",
+          "children": [
+            {
+              "type": "file",
+              "name": "EditorCanvas.tsx",
+              "path": "rsvpy-realll/components/page-builder/EditorCanvas.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "PageEditor.tsx",
+              "path": "rsvpy-realll/components/page-builder/PageEditor.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "PropertiesPanel.tsx",
+              "path": "rsvpy-realll/components/page-builder/PropertiesPanel.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "TemplateSelector.tsx",
+              "path": "rsvpy-realll/components/page-builder/TemplateSelector.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "WidgetRenderer.tsx",
+              "path": "rsvpy-realll/components/page-builder/WidgetRenderer.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "file",
+              "name": "WidgetToolbar.tsx",
+              "path": "rsvpy-realll/components/page-builder/WidgetToolbar.tsx",
+              "extension": ".tsx"
+            },
+            {
+              "type": "directory",
+              "name": "widgets",
+              "path": "rsvpy-realll/components/page-builder/widgets",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "CountdownWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/CountdownWidget.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "GalleryWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/GalleryWidget.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "HeaderWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/HeaderWidget.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "ImageWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/ImageWidget.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "MapWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/MapWidget.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "RsvpFormWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/RsvpFormWidget.tsx",
+                  "extension": ".tsx"
+                },
+                {
+                  "type": "file",
+                  "name": "TextWidget.tsx",
+                  "path": "rsvpy-realll/components/page-builder/widgets/TextWidget.tsx",
+                  "extension": ".tsx"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "directory",
           "name": "pricing",
           "path": "rsvpy-realll/components/pricing",
           "children": [
@@ -421,6 +608,12 @@
           "name": "AuthContext.tsx",
           "path": "rsvpy-realll/contexts/AuthContext.tsx",
           "extension": ".tsx"
+        },
+        {
+          "type": "file",
+          "name": "PageBuilderContext.tsx",
+          "path": "rsvpy-realll/contexts/PageBuilderContext.tsx",
+          "extension": ".tsx"
         }
       ]
     },
@@ -439,6 +632,12 @@
           "type": "file",
           "name": "database.types.ts",
           "path": "rsvpy-realll/lib/database.types.ts",
+          "extension": ".ts"
+        },
+        {
+          "type": "file",
+          "name": "debug.ts",
+          "path": "rsvpy-realll/lib/debug.ts",
           "extension": ".ts"
         },
         {
@@ -560,6 +759,12 @@
       "name": "supabase",
       "path": "rsvpy-realll/supabase",
       "children": [
+        {
+          "type": "directory",
+          "name": ".temp",
+          "path": "rsvpy-realll/supabase/.temp",
+          "children": []
+        },
         {
           "type": "directory",
           "name": "functions",

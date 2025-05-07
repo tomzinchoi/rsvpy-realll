@@ -1,15 +1,20 @@
 'use client';
 
 import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
-import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { 
+  User,
+  Session, // Add Session import
+  createClientComponentClient 
+} from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { logStartup } from '@/lib/debug';
 
 interface AuthContextProps {
   user: User | null;
+  session: Session | null;
   isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -21,6 +26,7 @@ interface AuthContextProviderProps {
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState<Error | null>(null);
   const router = useRouter();
@@ -29,62 +35,63 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   useEffect(() => {
     logStartup('AuthContextProvider', 'Initializing');
     
-    const getUser = async () => {
+    const getInitialSession = async () => {
       try {
-        logStartup('AuthContextProvider', 'Fetching user');
-        const { data: { user }, error } = await supabase.auth.getUser();
+        setIsLoading(true);
+        const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('Auth error during getUser:', error);
+          console.error('Error fetching session:', error);
           setAuthError(error);
-        } else {
-          setUser(user);
-          logStartup('AuthContextProvider', user ? 'User found' : 'No user found');
         }
+        
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (_event, session) => {
+            setSession(session);
+            setUser(session?.user ?? null);
+          }
+        );
+
+        return () => subscription.unsubscribe();
       } catch (error) {
-        console.error('Unexpected error during auth check:', error);
+        console.error('Auth initialization error:', error);
         setAuthError(error instanceof Error ? error : new Error(String(error)));
       } finally {
         setIsLoading(false);
       }
     };
 
-    getUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      logStartup('AuthContextProvider', `Auth state change: ${event}`);
-      
-      if (event === 'SIGNED_IN' && session?.user) {
-        setUser(session.user);
-      } else if (event === 'SIGNED_OUT') {
-        setUser(null);
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    getInitialSession();
   }, [supabase]);
 
-  const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    if (error) {
-      throw error;
+  const signIn = async (email: string, password: string): Promise<{ error: any }> => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      return { error };
+    } catch (error) {
+      console.error('Sign in error:', error);
+      return { error };
     }
   };
 
-  const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    
-    if (error) {
-      throw error;
+  const signUp = async (email: string, password: string): Promise<{ error: any }> => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      
+      return { error };
+    } catch (error) {
+      console.error('Sign up error:', error);
+      return { error };
     }
   };
 
@@ -97,6 +104,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     <AuthContext.Provider
       value={{
         user,
+        session,
         isLoading,
         signIn,
         signUp,
